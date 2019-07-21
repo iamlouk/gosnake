@@ -19,7 +19,7 @@ const (
 	// server -> client: Event{ "<reason>" }
 	ErrorEvent
 
-	// server -> client: Event{ "", [ Pos{ yourid, peerid }, Pos{ startx, starty } ] }
+	// server -> client: Event{ "", [ Pos{ yourid, peerid }, Pos{ mystartx, ,mystarty }, Pos{ peerstartx, ,peerstarty } ] }
 	StartGameEvent
 
 	// client -> server: Event{ "", [ Pos{ yourid, timestamp }, Pos{ bx, by } ] } // client has eaten a berry

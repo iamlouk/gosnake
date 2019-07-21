@@ -31,8 +31,10 @@ func NewGame(p1 *Client, p2 *Client) *Game {
 	p2.Id = 2
 	fmt.Printf("server: new game: `%s` vs. `%s`\n", p1.Nick, p2.Nick)
 
-	p1.ToMe <- &events.Event{ events.StartGameEvent, "Welcome to the Party!", []events.Pos{ events.Pos{ 1, 2 }, events.Pos{ width / 3, height / 2 } } }
-	p2.ToMe <- &events.Event{ events.StartGameEvent, "Welcome to the Party!", []events.Pos{ events.Pos{ 2, 1 }, events.Pos{ (width / 3) * 2, height / 2 } } }
+	p1Pos, p2Pos := events.Pos{ width / 3, height / 2 }, events.Pos{ (width / 3) * 2, height / 2 }
+
+	p1.ToMe <- &events.Event{ events.StartGameEvent, "Welcome to the Party!", []events.Pos{ events.Pos{ 1, 2 }, p1Pos, p2Pos } }
+	p2.ToMe <- &events.Event{ events.StartGameEvent, "Welcome to the Party!", []events.Pos{ events.Pos{ 2, 1 }, p2Pos, p1Pos } }
 
 	for {
 		from := 0
@@ -49,7 +51,11 @@ func NewGame(p1 *Client, p2 *Client) *Game {
 			game.Close(nil)
 			return nil
 		}
-
+		if evt.Type == events.MoveEvent {
+			p1.ToMe <- evt
+			p2.ToMe <- evt
+			continue
+		}
 		fmt.Printf("server: msg by #%d: `%#v`\n", from, evt)
 	}
 
