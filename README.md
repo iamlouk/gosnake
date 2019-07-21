@@ -1,7 +1,19 @@
+# Multiplayer Snake via the Terminal
 
-# Plan:
+*_Work in Progress!_*
 
-1. jemand startet server
-2. client1 sagt: ich will mit Y spielen und heiße X
-3. client2 sagt: ich will mit X spielen und heiße Y
-4. server startet das spiel sobald beide verbunden sind
+```sh
+git clone https://github.com/iamlouk/gosnake.git
+cd gosnake
+go build
+
+# Server:
+./gosnake --addr "localhost:1234" --server
+
+# Player 1:
+./gosnake --addr "localhost:1234" --nick player1 --peer player2
+
+# Player 2:
+./gosnake --addr "localhost:1234" --nick player2 --peer player1
+
+```
